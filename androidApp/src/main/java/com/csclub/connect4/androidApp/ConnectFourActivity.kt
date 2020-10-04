@@ -22,7 +22,7 @@ class ConnectFourActivity : AppCompatActivity(), ConnectFourView {
         initializeGrid()
         model = ViewModelProvider(this).get(ConnectFourViewModel::class.java)
         intent.extras?.run {
-            connectFourPresenter.onGameStart(!getBoolean("p1"), !getBoolean("p2"))
+            connectFourPresenter.onGameStart(!getBoolean("p1IsAI"), !getBoolean("p2IsAI"))
         }
         setContentView(view)
     }
