@@ -9,47 +9,47 @@
     tools:context=".MainActivity">
 
   <TextView
-      android:id="@+id/player_1_ai_label"
+      android:id="@+id/player_1_human_label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/player_1_ai_label"
       android:layout_margin="10dp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/player_1_ai_checkbox"
-      app:layout_constraintBottom_toTopOf="@id/player_2_ai_label"
+      app:layout_constraintEnd_toStartOf="@id/player_1_human_checkbox"
+      app:layout_constraintBottom_toTopOf="@id/player_2_human_label"
       app:layout_constraintHorizontal_chainStyle="packed"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/player_1_ai_checkbox"
+      android:id="@+id/player_1_human_checkbox"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:checked="true"
-      app:layout_constraintStart_toEndOf="@id/player_1_ai_label"
+      app:layout_constraintStart_toEndOf="@id/player_1_human_label"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@id/player_1_ai_label"
-      app:layout_constraintBottom_toBottomOf="@id/player_1_ai_label"
+      app:layout_constraintTop_toTopOf="@id/player_1_human_label"
+      app:layout_constraintBottom_toBottomOf="@id/player_1_human_label"
       app:layout_constraintHorizontal_chainStyle="packed"/>
 
   <TextView
-      android:id="@+id/player_2_ai_label"
+      android:id="@+id/player_2_human_label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/player_2_ai_label"
       android:layout_margin="10dp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/player_2_ai_checkbox"
+      app:layout_constraintEnd_toStartOf="@id/player_2_human_checkbox"
       app:layout_constraintBottom_toTopOf="@id/start_game_button"
       app:layout_constraintHorizontal_chainStyle="packed"/>
 
   <androidx.appcompat.widget.AppCompatCheckBox
-      android:id="@+id/player_2_ai_checkbox"
+      android:id="@+id/player_2_human_checkbox"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:checked="true"
-      app:layout_constraintStart_toEndOf="@id/player_2_ai_label"
+      app:layout_constraintStart_toEndOf="@id/player_2_human_label"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@id/player_2_ai_label"
-      app:layout_constraintBottom_toBottomOf="@id/player_2_ai_label"
+      app:layout_constraintTop_toTopOf="@id/player_2_human_label"
+      app:layout_constraintBottom_toBottomOf="@id/player_2_human_label"
       app:layout_constraintHorizontal_chainStyle="packed"/>
 
   <Button

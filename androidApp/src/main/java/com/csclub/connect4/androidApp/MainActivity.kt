@@ -1,11 +1,9 @@
 package com.csclub.connect4.androidApp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import com.csclub.connect4.androidApp.databinding.ActivityConnectFourBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.csclub.connect4.androidApp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, ConnectFourActivity::class.java).apply {
             putExtras(Bundle().apply {
                 // Applies the "not" to make being human the default value if the bundle is not found for some reason
-                putBoolean("p1", !binding.player1AiCheckbox.isChecked)
-                putBoolean("p2", !binding.player2AiCheckbox.isChecked)
+                putBoolean("p1IsAI", !binding.player1HumanCheckbox.isChecked)
+                putBoolean("p2IsAI", !binding.player2HumanCheckbox.isChecked)
             })
         })
     }
