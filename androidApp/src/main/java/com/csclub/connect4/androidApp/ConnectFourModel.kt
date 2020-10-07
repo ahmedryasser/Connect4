@@ -10,10 +10,10 @@ enum class Player { ONE, TWO, NONE }
 enum class Victory { YES, NO, TIE}
 
 /* Represents a Connect Four board with indices as follows:
-    (0,NUM_ROWS),   (1,NUM_ROWS),   ...,    (NUM_COLUMNS,NUM_ROWS)
+    (0,NUM_ROWS - 1),   (1,NUM_ROWS - 1),   ...,    (NUM_COLUMNS - 1,NUM_ROWS - 1)
     ...
-    (0,1),          (1,1),          ...,    (NUM_COLUMNS,1)
-    (0,0),          (1,0),          ...,    (NUM_COLUMNS,0)
+    (0,1),          (1,1),          ...,    (NUM_COLUMNS - 1,1)
+    (0,0),          (1,0),          ...,    (NUM_COLUMNS - 1,0)
  */
 interface ConnectFourModel {
     operator fun get(column: Int, row: Int): Player
