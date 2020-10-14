@@ -23,13 +23,26 @@ interface ConnectFourModel {
     fun isColumnFull(column: Int): Boolean {
         // TODO
         // Returns true if the column is full, or false if it is not
-        return false
+        for(x in 0 until NUM_ROWS){
+            if(get(column, x) == Player.NONE){
+                return false
+            }
+        }
+        return true
     }
 
     fun isBoardFull(): Boolean {
         // TODO
         // Returns true if the board is full, or false if it is not
-        return false
+        //ConnectFourMode
+        for(i in 0 until NUM_COLUMNS){
+            for(j in 0 until NUM_ROWS){
+                if(get(i, j) == Player.NONE){
+                    return false
+                }
+            }
+        }
+        return true
     }
 }
 
