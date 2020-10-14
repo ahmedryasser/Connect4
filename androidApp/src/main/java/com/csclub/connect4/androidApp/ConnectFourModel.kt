@@ -108,11 +108,11 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
         if (win.contains(true)){
             return Victory.YES
         }
-        if(!isBoardFull()){
+        else if(isBoardFull()){
             return Victory.TIE
         }
         else{
-            return Victory.TIE
+            return Victory.NO
         }
         // Returns Victory.YES if the player who just dropped a disc into position (column, row) has won
         // Returns Victory.TIE if the board is full but the player did not win
