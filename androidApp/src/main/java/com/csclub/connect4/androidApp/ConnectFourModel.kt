@@ -21,8 +21,6 @@ interface ConnectFourModel {
     fun clone(): MutableConnectFourModel
 
     fun isColumnFull(column: Int): Boolean {
-        // TODO
-        // Returns true if the column is full, or false if it is not
         for(x in 0 until NUM_ROWS){
             if(get(column, x) == Player.NONE){
                 return false
@@ -32,14 +30,9 @@ interface ConnectFourModel {
     }
 
     fun isBoardFull(): Boolean {
-        // TODO
-        // Returns true if the board is full, or false if it is not
-        //ConnectFourMode
         for(i in 0 until NUM_COLUMNS){
-            for(j in 0 until NUM_ROWS){
-                if(get(i, j) == Player.NONE){
-                    return false
-                }
+            if (!isColumnFull(i)) {
+                return false
             }
         }
         return true
@@ -77,46 +70,37 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     override fun clone(): MutableConnectFourModel = MutableConnectFourModel(p1Discs.copyOf(), p2Discs.copyOf())
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
-        // TODO
         val win = Array(8) { true }
-        for (a in 0 .. 3){
-            if (player != get(column+a ,row+a)){
+        for (a in 0 until NUM_TO_WIN){
+            if (player != get(column + a,row + a)){
                 win[0] = false
             }
-            if (player != get(column-a ,row+a)){
+            if (player != get(column - a,row + a)){
                 win[1] = false
             }
-            if (player != get(column+a ,row-a)){
+            if (player != get(column + a,row - a)){
                 win[2] = false
             }
-            if (player != get(column-a ,row-a)){
+            if (player != get(column - a,row - a)){
                 win[3] = false
             }
-            if (player != get(column+a ,row)){
+            if (player != get(column + a, row)){
                 win[4] = false
             }
-            if (player != get(column-a ,row)){
+            if (player != get(column - a, row)){
                 win[5] = false
             }
-            if (player != get(column ,row-a)){
+            if (player != get(column,row - a)){
                 win[6] = false
             }
-            if (player != get(column ,row+a)){
+            if (player != get(column,row + a)){
                 win[7] = false
             }
         }
-        if (win.contains(true)){
-            return Victory.YES
+        return when {
+            win.contains(true) -> Victory.YES
+            isBoardFull() -> Victory.TIE
+            else -> Victory.NO
         }
-        else if(isBoardFull()){
-            return Victory.TIE
-        }
-        else{
-            return Victory.NO
-        }
-        // Returns Victory.YES if the player who just dropped a disc into position (column, row) has won
-        // Returns Victory.TIE if the board is full but the player did not win
-        // Returns Victory.NO otherwise
-
     }
 }

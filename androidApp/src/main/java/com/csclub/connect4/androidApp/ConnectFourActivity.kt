@@ -41,6 +41,11 @@ class ConnectFourActivity : AppCompatActivity(), ConnectFourView {
         // TODO
         // Finds the column of the ImageView that was clicked
         // Calls onGridClick() in the presenter
+        for((i, column) in grid.withIndex()) {
+            if(column.indexOf(v) != -1) {
+                connectFourPresenter.onGridClick(i)
+            }
+        }
     }
 
     override fun updateUI() {
@@ -51,6 +56,23 @@ class ConnectFourActivity : AppCompatActivity(), ConnectFourView {
         // Updates the current player TextView
         // Updates the winning player TextView (should be hidden if no winner)
         // Try to find documentation for how to do these View operations on the internet
+        for(col in grid.indices) {
+            for(row in grid[col].indices) {
+                grid[col][row].setImageResource(when (connectFourPresenter.connectFourModel[col, row]) {
+                        Player.NONE -> R.drawable.ic_connect4empty
+                        Player.ONE -> R.drawable.ic_connect4red
+                        Player.TWO -> R.drawable.ic_connect4blue
+                    })
+            }
+        }
+        binding.currentPlayerTextview.text = "Current player: ${if(connectFourPresenter.currentPlayer == Player.ONE) "P1" else "P2"}"
+        if (connectFourPresenter.victory == Victory.YES) {
+            binding.winningPlayerTextview.visibility = View.VISIBLE
+            binding.winningPlayerTextview.text = "${if(connectFourPresenter.currentPlayer == Player.TWO) "P1" else "P2"} has won!"
+        } else if (connectFourPresenter.victory == Victory.TIE) {
+            binding.winningPlayerTextview.visibility = View.VISIBLE
+            binding.winningPlayerTextview.text = "Tie!"
+        }
     }
 
     private fun initializeGrid() {
