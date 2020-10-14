@@ -50,6 +50,9 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     }
 
     override operator fun get(column: Int, row: Int): Player {
+        if(column !in 0 until NUM_COLUMNS || row !in 0 until NUM_ROWS) {
+            return Player.NONE
+        }
         val mask = (1 shl row).toByte()
         return when {
             p1Discs[column] and mask > 0.toByte() -> Player.ONE
