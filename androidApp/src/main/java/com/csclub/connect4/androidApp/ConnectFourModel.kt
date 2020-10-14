@@ -65,9 +65,45 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
         // TODO
+        val win = Array(8) { true }
+        for (a in 0 .. 3){
+            if (player != get(column+a ,row+a)){
+                win[0] = false
+            }
+            if (player != get(column-a ,row+a)){
+                win[1] = false
+            }
+            if (player != get(column+a ,row-a)){
+                win[2] = false
+            }
+            if (player != get(column-a ,row-a)){
+                win[3] = false
+            }
+            if (player != get(column+a ,row)){
+                win[4] = false
+            }
+            if (player != get(column-a ,row)){
+                win[5] = false
+            }
+            if (player != get(column ,row-a)){
+                win[6] = false
+            }
+            if (player != get(column ,row+a)){
+                win[7] = false
+            }
+        }
+        if (win.contains(true)){
+            return Victory.YES
+        }
+        if(!isBoardFull()){
+            return Victory.TIE
+        }
+        else{
+            return Victory.TIE
+        }
         // Returns Victory.YES if the player who just dropped a disc into position (column, row) has won
         // Returns Victory.TIE if the board is full but the player did not win
         // Returns Victory.NO otherwise
-        return Victory.NO
+
     }
 }
