@@ -33,14 +33,20 @@ class ConnectFourPresenter {
     }
 
     tailrec fun onGridClick(column: Int) {
-        // TODO
-        // Checks if the move is valid and the game is still going. If not, does nothing
-        // Otherwise, drops a disc in the specified column, and updates victory
-        // Changes player to the next player
-        // Updates the UI
-        // If the now-current player is an AI and the game is still going, takes its turn
+        if (victory == Victory.NO) {
+            victory = dropDisc(currentPlayer, column)
+            if (currentPlayer == Player.ONE) {
+                currentPlayer = Player.TWO
+            } else {
+                currentPlayer = Player.ONE
+            }
+            view.updateUI()
+            if ((currentPlayer == Player.ONE && !isP1Human)||(currentPlayer == Player.TWO && !isP2Human)) {
+                onGridClick(connectFourAI.getNextMove(connectFourModel, currentPlayer))
+            }
+        }
     }
-}
+
 
 interface ConnectFourView {
     fun updateUI()

@@ -70,6 +70,7 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     override fun clone(): MutableConnectFourModel = MutableConnectFourModel(p1Discs.copyOf(), p2Discs.copyOf())
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
+=======
         val win = Array(8) { true }
         for (a in 0 until NUM_TO_WIN){
             if (player != get(column + a,row + a)){
