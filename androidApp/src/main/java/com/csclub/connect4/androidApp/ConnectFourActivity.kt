@@ -58,7 +58,7 @@ class ConnectFourActivity : AppCompatActivity(), ConnectFourView {
         // Try to find documentation for how to do these View operations on the internet
         for(col in grid.indices) {
             for(row in grid[col].indices) {
-                grid[col][row].setImageResource(when (connectFourPresenter.connectFourModel[col, row]) {
+                grid[col][NUM_ROWS - row - 1].setImageResource(when (connectFourPresenter.connectFourModel[col, row]) {
                         Player.NONE -> R.drawable.ic_connect4empty
                         Player.ONE -> R.drawable.ic_connect4red
                         Player.TWO -> R.drawable.ic_connect4blue

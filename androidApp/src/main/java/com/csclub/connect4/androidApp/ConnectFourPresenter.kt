@@ -4,9 +4,11 @@ class ConnectFourPresenter {
     private var connectFourView: ConnectFourView? = null
     private var isP1Human = true
     private var isP2Human = true
+
     // Should never be NONE
     var currentPlayer = Player.ONE
         private set
+
     // YES means that the player who went last won, TIE means a tie, and NO means the game is still going
     var victory = Victory.NO
         private set
@@ -34,18 +36,19 @@ class ConnectFourPresenter {
 
     tailrec fun onGridClick(column: Int) {
         if (victory == Victory.NO) {
-            victory = dropDisc(currentPlayer, column)
+            victory = _connectFourModel.dropDisc(currentPlayer, column)
             if (currentPlayer == Player.ONE) {
                 currentPlayer = Player.TWO
             } else {
                 currentPlayer = Player.ONE
             }
-            view.updateUI()
-            if ((currentPlayer == Player.ONE && !isP1Human)||(currentPlayer == Player.TWO && !isP2Human)) {
+            connectFourView?.updateUI()
+            if ((currentPlayer == Player.ONE && !isP1Human) || (currentPlayer == Player.TWO && !isP2Human)) {
                 onGridClick(connectFourAI.getNextMove(connectFourModel, currentPlayer))
             }
         }
     }
+}
 
 
 interface ConnectFourView {
