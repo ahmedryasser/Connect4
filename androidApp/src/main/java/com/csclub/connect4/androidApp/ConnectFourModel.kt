@@ -10,10 +10,10 @@ enum class Player { ONE, TWO, NONE }
 enum class Victory { YES, NO, TIE}
 
 /* Represents a Connect Four board with indices as follows:
-    (0,NUM_ROWS),   (1,NUM_ROWS),   ...,    (NUM_COLUMNS,NUM_ROWS)
+    (0,NUM_ROWS - 1),   (1,NUM_ROWS - 1),   ...,    (NUM_COLUMNS - 1,NUM_ROWS - 1)
     ...
-    (0,1),          (1,1),          ...,    (NUM_COLUMNS,1)
-    (0,0),          (1,0),          ...,    (NUM_COLUMNS,0)
+    (0,1),          (1,1),          ...,    (NUM_COLUMNS - 1,1)
+    (0,0),          (1,0),          ...,    (NUM_COLUMNS - 1,0)
  */
 interface ConnectFourModel {
     operator fun get(column: Int, row: Int): Player
@@ -21,15 +21,21 @@ interface ConnectFourModel {
     fun clone(): MutableConnectFourModel
 
     fun isColumnFull(column: Int): Boolean {
-        // TODO
-        // Returns true if the column is full, or false if it is not
-        return false
+        for(x in 0 until NUM_ROWS){
+            if(get(column, x) == Player.NONE){
+                return false
+            }
+        }
+        return true
     }
 
     fun isBoardFull(): Boolean {
-        // TODO
-        // Returns true if the board is full, or false if it is not
-        return false
+        for(i in 0 until NUM_COLUMNS){
+            if (!isColumnFull(i)) {
+                return false
+            }
+        }
+        return true
     }
 }
 
@@ -50,6 +56,9 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     }
 
     override operator fun get(column: Int, row: Int): Player {
+        if(column !in 0 until NUM_COLUMNS || row !in 0 until NUM_ROWS) {
+            return Player.NONE
+        }
         val mask = (1 shl row).toByte()
         return when {
             p1Discs[column] and mask > 0.toByte() -> Player.ONE
@@ -61,32 +70,38 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     override fun clone(): MutableConnectFourModel = MutableConnectFourModel(p1Discs.copyOf(), p2Discs.copyOf())
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
-            while (curCol >= 0 && gameBoard[row][curCol] == symbol) {
-                ++count
-                if (count == 4) {
-                    return Victory.YES
-                }
-                --curCol
+=======
+        val win = Array(8) { true }
+        for (a in 0 until NUM_TO_WIN){
+            if (player != get(column + a,row + a)){
+                win[0] = false
             }
-
-            // same thing to the right; numColumns is assumed to be the number of
-            // columns in the board.
-            curCol = col + 1
-            while (curCol < numColumns && gameBoard[row][curCol] == symbol) {
-                ++count
-                if (count == 4) {
-                    return Victory.YES
-                }
-                ++curCol
+            if (player != get(column - a,row + a)){
+                win[1] = false
             }
-
-            // if you got here there weren't 4 in a row
-            return Victory.NO
+            if (player != get(column + a,row - a)){
+                win[2] = false
+            }
+            if (player != get(column - a,row - a)){
+                win[3] = false
+            }
+            if (player != get(column + a, row)){
+                win[4] = false
+            }
+            if (player != get(column - a, row)){
+                win[5] = false
+            }
+            if (player != get(column,row - a)){
+                win[6] = false
+            }
+            if (player != get(column,row + a)){
+                win[7] = false
+            }
         }
-        // TODO
-        // Returns Victory.YES if the player who just dropped a disc into position (column, row) has won
-        // Returns Victory.TIE if the board is full but the player did not win
-        // Returns Victory.NO otherwise
-
+        return when {
+            win.contains(true) -> Victory.YES
+            isBoardFull() -> Victory.TIE
+            else -> Victory.NO
+        }
     }
 }
