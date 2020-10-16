@@ -61,10 +61,32 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     override fun clone(): MutableConnectFourModel = MutableConnectFourModel(p1Discs.copyOf(), p2Discs.copyOf())
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
+            while (curCol >= 0 && gameBoard[row][curCol] == symbol) {
+                ++count
+                if (count == 4) {
+                    return Victory.YES
+                }
+                --curCol
+            }
+
+            // same thing to the right; numColumns is assumed to be the number of
+            // columns in the board.
+            curCol = col + 1
+            while (curCol < numColumns && gameBoard[row][curCol] == symbol) {
+                ++count
+                if (count == 4) {
+                    return Victory.YES
+                }
+                ++curCol
+            }
+
+            // if you got here there weren't 4 in a row
+            return Victory.NO
+        }
         // TODO
         // Returns Victory.YES if the player who just dropped a disc into position (column, row) has won
         // Returns Victory.TIE if the board is full but the player did not win
         // Returns Victory.NO otherwise
-        return Victory.NO
+
     }
 }
