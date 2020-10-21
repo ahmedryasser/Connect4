@@ -1,5 +1,6 @@
 package com.csclub.connect4.androidApp
 
+import java.lang.Integer.max
 import kotlin.experimental.and
 import kotlin.experimental.or
 
@@ -70,35 +71,37 @@ class MutableConnectFourModel private constructor(private val p1Discs: ByteArray
     override fun clone(): MutableConnectFourModel = MutableConnectFourModel(p1Discs.copyOf(), p2Discs.copyOf())
 
     private fun isWinningMove(player: Player, column: Int, row: Int) : Victory {
-        val win = Array(8) { true }
-        for (a in 0 until NUM_TO_WIN){
-            if (player != get(column + a,row + a)){
-                win[0] = false
+        val numInARow = IntArray(4) { 0 }
+        val maxInARow = IntArray(4) { 0 }
+        for (i in -NUM_TO_WIN + 1 until NUM_TO_WIN){
+            if (get(column + i, row + i) == player) {
+                numInARow[0]++
+                maxInARow[0] = max(numInARow[0], maxInARow[0])
+            } else {
+                numInARow[0] = 0
             }
-            if (player != get(column - a,row + a)){
-                win[1] = false
+            if (get(column - i, row + i) == player) {
+                numInARow[1]++
+                maxInARow[1] = max(numInARow[1], maxInARow[1])
+            } else {
+                numInARow[1] = 0
             }
-            if (player != get(column + a,row - a)){
-                win[2] = false
+            if (get(column, row + i) == player) {
+                numInARow[2]++
+                maxInARow[2] = max(numInARow[2], maxInARow[2])
             }
-            if (player != get(column - a,row - a)){
-                win[3] = false
+            else {
+                numInARow[2] = 0
             }
-            if (player != get(column + a, row)){
-                win[4] = false
-            }
-            if (player != get(column - a, row)){
-                win[5] = false
-            }
-            if (player != get(column,row - a)){
-                win[6] = false
-            }
-            if (player != get(column,row + a)){
-                win[7] = false
+            if (get(column + i, row) == player) {
+                numInARow[3]++
+                maxInARow[3] = max(numInARow[3], maxInARow[3])
+            } else {
+                numInARow[3] = 0
             }
         }
         return when {
-            win.contains(true) -> Victory.YES
+            maxInARow.indexOfFirst { it >= NUM_TO_WIN } != -1 -> Victory.YES
             isBoardFull() -> Victory.TIE
             else -> Victory.NO
         }

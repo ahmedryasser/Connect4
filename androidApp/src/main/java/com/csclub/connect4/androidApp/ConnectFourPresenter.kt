@@ -15,7 +15,7 @@ class ConnectFourPresenter {
     private val _connectFourModel = MutableConnectFourModel()
     val connectFourModel: ConnectFourModel
         get() = _connectFourModel
-    private val connectFourAI: ConnectFourAI = DummyAI()
+    private val connectFourAI: ConnectFourAI = MinMaxAI()
 
     fun subscribeToUpdates(view: ConnectFourView) {
         connectFourView = view
@@ -37,11 +37,7 @@ class ConnectFourPresenter {
     tailrec fun onGridClick(column: Int) {
         if (victory == Victory.NO) {
             victory = _connectFourModel.dropDisc(currentPlayer, column)
-            if (currentPlayer == Player.ONE) {
-                currentPlayer = Player.TWO
-            } else {
-                currentPlayer = Player.ONE
-            }
+            currentPlayer = if (currentPlayer == Player.ONE) { Player.TWO } else { Player.ONE }
             connectFourView?.updateUI()
             if ((currentPlayer == Player.ONE && !isP1Human) || (currentPlayer == Player.TWO && !isP2Human)) {
                 onGridClick(connectFourAI.getNextMove(connectFourModel, currentPlayer))
